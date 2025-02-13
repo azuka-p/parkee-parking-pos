@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class CheckInResponse {
+public class CheckInResponse implements Response {
     private String name;
 
     private String vehicleType;

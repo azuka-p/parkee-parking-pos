@@ -2,6 +2,8 @@ package com.parking.pos.controller;
 
 import com.parking.pos.model.dto.CheckInRequest;
 import com.parking.pos.model.dto.CheckInResponse;
+import com.parking.pos.model.dto.ErrorResponse;
+import com.parking.pos.model.dto.Response;
 import com.parking.pos.model.entity.Member;
 import com.parking.pos.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ public class CheckInController {
     private MemberService memberService;
 
     @PostMapping("/check-in")
-    public ResponseEntity<CheckInResponse> checkIn(@RequestBody CheckInRequest request) {
+    public ResponseEntity<Response> checkIn(@RequestBody CheckInRequest request) {
         try {
             Member member = memberService.checkIn(request.getPlateNumber(), request.getVehicleType());
             CheckInResponse response = CheckInResponse.builder()
@@ -32,7 +34,7 @@ public class CheckInController {
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (RuntimeException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            return new ResponseEntity<>(ErrorResponse.builder().error(e.getMessage()).build(), HttpStatus.BAD_REQUEST);
         }
     }
 }
