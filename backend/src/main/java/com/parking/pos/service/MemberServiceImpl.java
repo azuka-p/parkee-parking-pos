@@ -18,7 +18,7 @@ public class MemberServiceImpl implements MemberService {
         if (StringUtils.isBlank(plateNumber)) {
             throw new RuntimeException("plate number is blank");
         }
-        Member member = memberRepo.findByPlateNumberAndDeletedAtFalse(plateNumber);
+        Member member = memberRepo.findByPlateNumberAndDeletedAtIsNull(plateNumber);
 
         if (Objects.isNull(member)) {
             throw new RuntimeException("member is not found");

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MemberRepo extends JpaRepository<Member, String> {
-    Member findByPlateNumberAndDeletedAtFalse(String plateNumber);
+    Member findByPlateNumberAndDeletedAtIsNull(String plateNumber);
 }
