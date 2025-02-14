@@ -13,6 +13,6 @@ public class CheckInResponse implements Response {
 
     private String vehicleType;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime expiredDate;
 }
