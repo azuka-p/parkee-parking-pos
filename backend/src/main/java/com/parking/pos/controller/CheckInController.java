@@ -1,10 +1,8 @@
 package com.parking.pos.controller;
 
-import com.parking.pos.model.dto.CheckInRequest;
-import com.parking.pos.model.dto.CheckInResponse;
-import com.parking.pos.model.dto.ErrorResponse;
-import com.parking.pos.model.dto.Response;
+import com.parking.pos.model.dto.*;
 import com.parking.pos.model.entity.Member;
+import com.parking.pos.model.entity.Ticket;
 import com.parking.pos.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +31,18 @@ public class CheckInController {
                     .build();
 
             return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(ErrorResponse.builder().error(e.getMessage()).build(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/ticket-in")
+    public ResponseEntity<Response> ticketIn(@RequestBody TicketInRequest request) {
+        try {
+            Ticket ticket = memberService.ticketIn(request.getPlateNumber(), request.getVehicleType());
+            System.out.printf("Print ticket %s for member %s", ticket.getId(), ticket.getMember().getId());
+
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(ErrorResponse.builder().error(e.getMessage()).build(), HttpStatus.BAD_REQUEST);
         }

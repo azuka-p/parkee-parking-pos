@@ -1,7 +1,10 @@
 package com.parking.pos.repository;
 
+import com.parking.pos.model.entity.Ticket;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TicketRepo {
+public interface TicketRepo extends JpaRepository<Ticket, String> {
+    boolean existsByMemberIdAndDeletedAtIsNull(String memberId);
 }
