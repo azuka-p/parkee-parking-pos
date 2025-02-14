@@ -21,7 +21,4 @@ public class Ticket extends Base {
 
     @Column(name = "discount")
     private double discount;
-
-    @Column(name = "is_active")
-    private boolean isActive;
 }

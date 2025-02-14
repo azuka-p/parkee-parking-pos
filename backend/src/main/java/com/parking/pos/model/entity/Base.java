@@ -19,10 +19,10 @@ public class Base {
     @Column(name = "id", updatable = false, nullable = false)
     protected String id;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", insertable = false, updatable = false)
     protected LocalDateTime createdAt;
 
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", insertable = false)
     protected LocalDateTime updatedAt;
 
     @Column(name = "deleted_at")
