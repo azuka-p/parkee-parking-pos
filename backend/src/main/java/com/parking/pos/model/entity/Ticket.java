@@ -8,9 +8,6 @@ import lombok.Data;
 @Data
 public class Ticket extends Base {
 
-    @Column(name = "plate_number")
-    private String plateNumber;
-
     @ManyToOne
     @JoinColumn(name = "member_id", referencedColumnName = "id")
     private Member member;
