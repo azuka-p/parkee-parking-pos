@@ -1,9 +1,5 @@
 import styled from "styled-components";
 
-// const CameraContaner = styled.div`
-//   margin: 5px;
-// `;
-
 const CameraFeed = styled.div`
     background-color: darkgrey;
     border: 1px solid grey;
@@ -21,6 +17,8 @@ const CameraLabel = styled.div`
     border-radius: 0 0 5px 5px;
     padding: 3px 5px;
     margin-bottom: 10px;
+    min-width: 192px;
+    width: 28vw;
 `;
 
 export type CameraProps = {

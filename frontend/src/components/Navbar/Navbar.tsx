@@ -1,14 +1,21 @@
-// import "./Navbar.scss";
+import {Link} from "react-router-dom";
+import styled from "styled-components";
+
+const MenuContainer = styled.div`
+  display: flex;
+  gap: 10px;
+`;
 
 export const Navbar = () => {
   return (
     <nav>
-      <div className="left-nav d-flex align-items-center">
-        <span className="bold-700">CONVENTIONAL / PARKEE Office Agent</span>
+      <div>
+        <span>PARKEE Parking POS</span>
       </div>
-      <div className="right-nav d-flex align-items-center">
-        <button className="primary-btn nav-btn">Logout</button>
-      </div>
+      <MenuContainer>
+        <Link to="/check-in">Check In</Link>
+        <Link to="/check-out">Check Out</Link>
+      </MenuContainer>
     </nav>
   );
 };
