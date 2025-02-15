@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 @Service
@@ -84,5 +85,74 @@ public class MemberServiceImpl implements MemberService {
         }
 
         return ticketCreation(member, parkingLot);
+    }
+
+    public Ticket getTicket(String plateNumber, String parkingId) {
+        if (StringUtils.isBlank(plateNumber)) {
+            throw new RuntimeException("plate number is blank");
+        }
+
+        Member member = memberRepo.findByPlateNumberAndDeletedAtIsNull(plateNumber);
+        if (Objects.isNull(member)) {
+            throw new RuntimeException("member is not found");
+        }
+
+        Ticket ticket = ticketRepo.findByMemberIdAndParkingLotIdAndDeletedAtIsNull(member.getId(), defaultParkingLot);
+        if (Objects.isNull(ticket)) {
+            throw new RuntimeException("ticket is not found");
+        }
+
+        if (!Objects.equals(parkingId, ticket.getId())) {
+            throw new RuntimeException("invalid ticket id");
+        }
+
+        return ticket;
+    }
+
+    @Override
+    @Transactional
+    public Ticket checkOut(String plateNumber, String parkingId, String voucherCode) {
+        Ticket ticket = getTicket(plateNumber, parkingId);
+
+        LocalDateTime current = LocalDateTime.now();
+        long duration = ChronoUnit.HOURS.between(ticket.getCreatedAt(), current);
+        LocalDateTime round = ticket.getCreatedAt().plusHours(duration);
+        if (round.isBefore(current)) {
+            duration++;
+        }
+        double price = 3000 * duration;
+
+        double discount;
+        try {
+            discount = (double) (100-Integer.parseInt(voucherCode))/100;
+        } catch (Exception e) {
+            discount = 0;
+        }
+
+        double finalPrice = price;
+        if (discount != 0) {
+            finalPrice *= discount;
+        }
+
+        ticket.setPrice(price);
+        ticket.setDiscount(discount);
+        ticket.setFinalPrice(finalPrice);
+        ticket.setExitTime(current);
+        ticketRepo.updatePayTicket(ticket.getId(), price, discount, finalPrice, current);
+        return ticket;
+    }
+
+    @Override
+    @Transactional
+    public Ticket ticketOut(String parkingId) {
+        Ticket ticket = ticketRepo.findById(parkingId).orElse(null);
+        if (Objects.isNull(ticket)) {
+            throw new RuntimeException("ticket is not found");
+        }
+
+        ticketRepo.updateNonActive(parkingId);
+        parkingLotRepo.incrementCapacity(ticket.getParkingLot().getId());
+
+        return ticket;
     }
 }

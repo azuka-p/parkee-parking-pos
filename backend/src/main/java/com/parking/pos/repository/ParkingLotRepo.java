@@ -14,4 +14,7 @@ public interface ParkingLotRepo extends JpaRepository<ParkingLot, String> {
     @Modifying
     @Query("UPDATE ParkingLot e SET e.capacity = e.capacity - 1, e.updatedAt = CURRENT_TIMESTAMP WHERE e.id = :id AND e.capacity > 0 AND e.deletedAt IS NULL")
     void decrementCapacity(@Param("id") String id);
+    @Modifying
+    @Query("UPDATE ParkingLot e SET e.capacity = e.capacity + 1, e.updatedAt = CURRENT_TIMESTAMP WHERE e.id = :id AND e.capacity > 0 AND e.deletedAt IS NULL")
+    void incrementCapacity(@Param("id") String id);
 }
