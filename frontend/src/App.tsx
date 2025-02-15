@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {TicketCheckInPage} from "./pages/TicketCheckInPage.tsx";
-// import {TicketCheckoutPage} from "./pages/TicketCheckoutPage.tsx";
 import RootLayout from "./layout/RootLayout.tsx";
+import {TicketCheckOutPage} from "./pages/TicketCheckoutPage.tsx";
 
 const router = createBrowserRouter([
     {
@@ -12,10 +12,14 @@ const router = createBrowserRouter([
                 index: true,
                 element: <TicketCheckInPage/>,
             },
-            // {
-            //     path: `/check-out`,
-            //     element: <TicketCheckoutPage/>,
-            // },
+            {
+                path: `/check-in`,
+                element: <TicketCheckInPage/>,
+            },
+            {
+                path: `/check-out`,
+                element: <TicketCheckOutPage/>,
+            },
         ]
     }
 ]);
