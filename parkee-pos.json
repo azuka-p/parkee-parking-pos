@@ -1,0 +1,81 @@
+{
+  "info": {
+    "name": "parkee-pos",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "check in",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "http://localhost:8080/check-in",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"plateNumber\": \"B 1234 DEF\",\n  \"vehicleType\": \"MOBIL\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "ticket in",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "http://localhost:8080/ticket-in",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"plateNumber\": \"B 1234 DEF\",\n  \"vehicleType\": \"MOBIL\",\n  \"entryTime\": \"2025-02-15 00:55:00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "check out",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "http://localhost:8080/check-out",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"plateNumber\": \"B 1234 DEF\",\n  \"parkingId\": \"befa4ba3-f195-4858-b9a8-4b62e8efbe2c\",\n  \"paymentMethod\": \"CASH\",\n  \"voucherCode\": \"10\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "ticket out",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "http://localhost:8080/ticket-out",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"parkingId\": \"befa4ba3-f195-4858-b9a8-4b62e8efbe2c\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "variable": []
+}
