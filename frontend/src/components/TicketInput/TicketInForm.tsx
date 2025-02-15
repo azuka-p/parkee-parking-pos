@@ -21,7 +21,7 @@ export const TicketInForm = memo(function TicketInForm(props: TicketInProps) {
 
   type Payload = {
     plateNumber: string,
-    checkInTime: string
+    vehicleType: string
   }
 
   type Response = {
@@ -30,6 +30,8 @@ export const TicketInForm = memo(function TicketInForm(props: TicketInProps) {
 
   const {fetchData: ticketInForm} = useFetch<Response, Payload>("/ticket-in", {
     method: "POST",
+    isImmediate: true,
+    isMultiPart: false
   })
 
   const handleSubmit = useCallback((e: FormEvent<HTMLFormElement>) => {
@@ -37,12 +39,14 @@ export const TicketInForm = memo(function TicketInForm(props: TicketInProps) {
     setSubmitting(true);
 
     const formData = new FormData(e.currentTarget);
+    formData.set("plateNumber", props.data.plateNumber);
+    formData.set("vehicleType", props.data.vehicleType);
     const formEntries = Object.fromEntries(formData);
 
     const data = formEntries as Payload;
     ticketInForm(data).then((res) => {
       setSubmitting(false);
-      if (res) {
+      if (res && res.error) {
         setFormError(res.error ? res.error : "Failed to send");
       } else {
         props.reset();
@@ -52,9 +56,9 @@ export const TicketInForm = memo(function TicketInForm(props: TicketInProps) {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <input type={"text"} name={"vehicleType"} disabled={true}>{props.data.vehicleType}</input>
-      <input type={"text"} name={"memberName"} disabled={true}>{props.data.memberName}</input>
-      <input type={"text"} name={"expiryDate"} disabled={true}>{props.data.expiryDate}</input>
+      <input type={"text"} name={"vehicleType"} readOnly={true} value={props.data.vehicleType}/>
+      <input type={"text"} name={"memberName"} readOnly={true} value={props.data.name}/>
+      <input type={"text"} name={"expiryDate"} readOnly={true} value={props.data.expiredDate}/>
       {formError ? <span>{formError}</span> : ""}
       {submitting
         ? <span>Submitting...</span>

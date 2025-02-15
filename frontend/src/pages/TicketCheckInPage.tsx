@@ -15,7 +15,7 @@ export const TicketCheckInPage = () => {
   return (
     <>
       <CameraContainer>
-        <Camera id={1} label={`AAAAAAA`}/>
+        <Camera id={1} label={`Kamera 1`}/>
       </CameraContainer>
       <CheckInForm data={checkInData} handleChange={(data: CheckInData) => setCheckInData(data)}/>
       <TicketInForm data={checkInData} reset={() => setCheckInData({} as CheckInData)}/>

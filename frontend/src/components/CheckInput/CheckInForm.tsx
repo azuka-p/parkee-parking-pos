@@ -17,8 +17,8 @@ interface vehicle {
 export type CheckInData = {
   plateNumber: string,
   vehicleType: string,
-  expiryDate: string,
-  memberName: string,
+  expiredDate: string,
+  name: string,
 }
 
 type CheckInProps = {
@@ -39,13 +39,16 @@ export const CheckInForm = memo(function CheckInForm(props: CheckInProps) {
   }
 
   type Response = {
-    expiryDate?: string,
-    memberName?: string,
+    expiredDate?: string,
+    name?: string,
+    vehicleType: string,
     error?: string,
   }
 
   const {fetchData: checkInForm} = useFetch<Response, Payload>("/check-in", {
     method: "POST",
+    isImmediate: true,
+    isMultiPart: false
   })
 
   const handleSubmit = useCallback((e: FormEvent<HTMLFormElement>) => {
@@ -57,13 +60,13 @@ export const CheckInForm = memo(function CheckInForm(props: CheckInProps) {
 
     const data = formEntries as Payload;
     checkInForm(data).then((res) => {
-      if (res && res.expiryDate && res.memberName) {
+      if (res && res.expiredDate && res.name) {
         setSubmitting(false);
         props.handleChange({
           plateNumber: data.plateNumber,
           vehicleType: data.vehicleType,
-          expiryDate: res.expiryDate,
-          memberName: res.memberName
+          expiredDate: res.expiredDate,
+          name: res.name
         });
       } else {
         setSubmitting(false);
