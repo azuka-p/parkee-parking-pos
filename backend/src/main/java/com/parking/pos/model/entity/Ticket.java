@@ -3,6 +3,8 @@ package com.parking.pos.model.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "tickets")
 @Data
@@ -21,4 +23,10 @@ public class Ticket extends Base {
 
     @Column(name = "discount")
     private double discount;
+
+    @Column(name = "final_price")
+    private double finalPrice;
+
+    @Column(name = "exit_time")
+    private LocalDateTime exitTime;
 }
