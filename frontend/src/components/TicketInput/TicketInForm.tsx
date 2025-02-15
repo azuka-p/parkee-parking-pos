@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {FormEvent, memo, useCallback, useState} from "react";
 import {useFetch} from "../../hooks/useFetch.ts";
 import {CheckInData} from "../CheckInput/CheckInForm.tsx";
+import {useNavigate} from "react-router-dom";
 
 const Form = styled.form`
   width: 50%;
@@ -18,6 +19,7 @@ type TicketInProps = {
 export const TicketInForm = memo(function TicketInForm(props: TicketInProps) {
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
+  const navigate = useNavigate()
 
   type Payload = {
     plateNumber: string,
@@ -49,10 +51,10 @@ export const TicketInForm = memo(function TicketInForm(props: TicketInProps) {
       if (res && res.error) {
         setFormError(res.error ? res.error : "Failed to send");
       } else {
-        props.reset();
+        navigate(0);
       }
     })
-  }, [])
+  }, [props])
 
   return (
     <Form onSubmit={handleSubmit}>

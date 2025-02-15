@@ -90,7 +90,7 @@ export const CheckInForm = memo(function CheckInForm(props: CheckInProps) {
       <select name={"vehicleType"}>
         <option value="">select...</option>
         {vehicleTypes.map((type) => (
-          <option key={type.id} value={type.id}>
+          <option key={type.id} value={type.name.toUpperCase()}>
             {type.name.toUpperCase()}
           </option>
         ))}
